@@ -89,9 +89,9 @@
 
         /* Tallos más largos */
         .stem {
-            position: absolute; width: 6px; height: 300px;
+            position: absolute; width: 6px; height: 300px; /* antes 200px */
             background: linear-gradient(to bottom, #2e7d32, #1b5e20);
-            bottom: -300px;
+            bottom: -300px; /* coincidiendo con la nueva altura */
             left: 50%; transform: translateX(-50%);
             z-index: -1; border-radius: 3px;
         }
@@ -103,66 +103,22 @@
         }
         .leaf-left { bottom: -150px; left: -20px; transform: rotate(-30deg); }
         .leaf-right { bottom: -190px; right: -20px; transform: rotate(60deg) scaleX(-1); }
-
-        /* Sobresito de notas */
-        .envelope {
-            position: relative;
-            width: 100px;
-            height: 70px;
-            background: #ffeb3b;
-            border: 2px solid #ffc107;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            color: #1a1a1a;
-            margin-top: 20px;
-            transition: transform 0.3s;
-        }
-        .envelope:hover { transform: scale(1.1); }
-
-        .note {
-            display: none;
-            position: absolute;
-            top: -90px;
-            width: 220px;
-            background: rgba(255, 235, 59, 0.95);
-            border: 2px solid #ffc107;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            color: #1a1a1a;
-            font-weight: normal;
-            line-height: 1.3;
-            z-index: 20;
-        }
     </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
     <div class="container">
-        <h1 class="title">✨ Flores Para Tí Eliannys 🥰✨</h1>
+        <h1 class="title">✨ FLores Para Tí Eliannys 🥰✨</h1>
 
+        <!-- Botón de play/pausa -->
         <button class="play-music-btn" id="playMusicBtn">▶️ Feliz 21 de septiembre ❤️🌻</button>
         
         <div id="progressWrapper"></div>
 
-        <div class="bouquet-container" id="bouquet">
-            
-        </div>
+        <div class="bouquet-container" id="bouquet"></div>
 
-        <!-- Sobresito -->
-        <div class="envelope" id="envelope">
-            📬 Abrir notitas
-            <div class="note" id="note">
-                Eres la razón por la que el sol brilla tan fuerte. ¡Feliz día!<br><br>
-                Para la persona que ilumina mis días como un ramo de girasoles.
-            </div>
-        </div>
-
-        <audio id="audioPlayer" src="../aud/flores.mp3" loop></audio>
+        <!-- Música predefinida -->
+        <audio id="audioPlayer" src="flores.mp3" loop></audio>
     </div>
 
     <script>
@@ -219,6 +175,7 @@
             return sunflower;
         }
 
+        // Ramo
         function createBouquet() {
             const bouquet = document.getElementById('bouquet');
             const flowers = [
@@ -242,6 +199,7 @@
             });
         }
 
+        // Corazones rojos neon
         function createHearts() {
             const starsContainer = document.getElementById('stars');
             for (let i = 0; i < 20; i++) {
@@ -273,7 +231,7 @@
         createBouquet();
         createHearts();
 
-        // Música y barra de progreso
+        // Música y barra de progreso con opción de pausa
         const audioPlayer = document.getElementById("audioPlayer");
         const progressWrapper = document.getElementById("progressWrapper");
         const playBtn = document.getElementById("playMusicBtn");
@@ -287,6 +245,7 @@
                 playBtn.textContent = "▶️ Reproducir música🌻";
             }
 
+            // Crear la barra si no existe
             if(!document.getElementById("progressContainer")){
                 const container = document.createElement("div");
                 container.id = "progressContainer";
@@ -307,13 +266,6 @@
                 const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
                 bar.style.width = progressPercent + "%";
             }
-        });
-
-        // Sobresito interactivo
-        const envelope = document.getElementById("envelope");
-        const note = document.getElementById("note");
-        envelope.addEventListener("click", () => {
-            note.style.display = note.style.display === "block" ? "none" : "block";
         });
     </script>
 </body>
