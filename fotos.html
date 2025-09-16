@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="img/icon.jpeg" type="image/jpeg" />
+  <title>Corazón y Cartitas con Estrellas</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: radial-gradient(circle at center, #0a0e27, #000);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    h1 {
+      margin: 40px 0 20px;
+      text-shadow: 0 0 10px #ff1744, 0 0 20px #f50057;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* CORAZÓN de fotos con contorno neon */
+    .heart {
+      display: grid;
+      grid-template-columns: repeat(5, 80px);
+      grid-auto-rows: 80px;
+      gap: 5px;
+      transform: scale(1);
+      animation: beat 1.5s infinite;
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .heart img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #ffeb3b;
+      box-shadow:
+        0 0 3px #ffff00,
+        0 0 6px #ffff00,
+        0 0 20px #ffff00,
+        0 0 50px #ffff00;
+    }
+
+    .heart div { 
+      opacity: 0; 
+    }
+
+    .heart div.filled { 
+      opacity: 1; 
+    }
+
+    @keyframes beat {
+      0%, 100% { 
+        transform: scale(1); 
+      }
+      50% { 
+        transform: scale(1.1); 
+      }
+    }
+
+    /* CARTITAS */
+    .letters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter {
+      width: 160px;
+      height: 120px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .letter-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
+
+    .letter.open .letter-inner { 
+      transform: rotateY(180deg); 
+    }
+
+    .letter-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border-radius: 6px;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .letter-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background: #fff;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+    }
+
+    .letter-front::after {
+      content: "❤️";
+      font-size: 22px;
+      position: absolute;
+      bottom: 10px;
+    }
+
+    .click-text {
+      position: absolute;
+      bottom: 35px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #e91e63;
+      text-shadow: 0 0 5px rgba(233,30,99,0.7);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .letter-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #fffdf5;
+      border: 2px solid #e0c097;
+      border-radius: 6px;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      box-sizing: border-box;
+      font-size: 0.9rem;
+      text-align: center;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    /* REPRODUCTOR PROFESIONAL */
+    .music-player {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 40px 0;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .player-header {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .song-selector {
+      margin-bottom: 20px;
+    }
+
+    .song-selector label {
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .song-selector select {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      font-size: 0.95rem;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .song-selector select:focus {
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .control-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    .control-btn:active {
+      transform: scale(0.95);
+    }
+
+    .play-pause-btn {
+      width: 55px;
+      height: 55px;
+      font-size: 1.5rem;
+      background: linear-gradient(45deg, #ff1744, #f50057);
+    }
+
+    .progress-container {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(45deg, #ff1744, #f50057);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .volume-icon {
+      color: #fff;
+      font-size: 1.1rem;
+      min-width: 20px;
+    }
+
+    .volume-slider {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(45deg, #ff1744, #f50057);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(45deg, #ff1744, #f50057);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+    }
+
+    .now-playing {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9rem;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    /* LUCEROS / ESTRELLAS */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 2s infinite;
+    }
+
+    .heart-neon {
+      position: absolute;
+      font-size: 20px;
+      color: #ff1744;
+      text-shadow: 0 0 10px #ff1744, 0 0 20px #ff1744, 0 0 30px #f50057;
+      opacity: 0;
+      animation: heartTwinkle 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { 
+        opacity: 0; 
+        transform: scale(0.5); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.2); 
+      }
+    }
+
+    @keyframes heartTwinkle {
+      0% { 
+        opacity: 0; 
+        transform: scale(0.5); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.2); 
+      }
+      100% { 
+        opacity: 0; 
+        transform: scale(0.5); 
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .heart {
+        grid-template-columns: repeat(5, 60px);
+        grid-auto-rows: 60px;
+        gap: 3px;
+      }
+
+      .letter {
+        width: 140px;
+        height: 100px;
+      }
+
+      .letters {
+        gap: 20px;
+      }
+
+      .music-player {
+        padding: 20px;
+        margin: 30px 10px;
+      }
+
+      .audio-controls {
+        gap: 10px;
+      }
+
+      .control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+
+      .play-pause-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .heart {
+        grid-template-columns: repeat(5, 50px);
+        grid-auto-rows: 50px;
+        gap: 2px;
+      }
+
+      .letter {
+        width: 120px;
+        height: 90px;
+      }
+
+      .click-text {
+        font-size: 0.75rem;
+        bottom: 30px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        margin: 20px 0 15px;
+      }
+
+      .music-player {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>❤️ Para Ti ❤️</h1>
+
+  <!-- Corazón de fotos -->
+  <div class="heart">
+    <div></div><div class="filled"><img src="img/img1.jpeg" alt="Foto 1"></div><div class="filled"><img src="img/img7.jpeg" alt="Foto 7"></div><div class="filled"><img src="img/img3.jpeg" alt="Foto 3"></div><div></div>
+    <div class="filled"><img src="img/img2.jpeg" alt="Foto 2"></div><div class="filled"><img src="img/img6.jpeg" alt="Foto 6"></div><div class="filled"><img src="img/img4.jpeg" alt="Foto 4"></div><div class="filled"><img src="img/img8.jpeg" alt="Foto 8"></div><div class="filled"><img src="img/img1.jpeg" alt="Foto 1"></div>
+    <div class="filled"><img src="img/img5.jpeg" alt="Foto 5"></div><div class="filled"><img src="img/img9.jpeg" alt="Foto 9"></div><div class="filled"><img src="img/img3.jpeg" alt="Foto 3"></div><div class="filled"><img src="img/img10.jpeg" alt="Foto 10"></div><div class="filled"><img src="img/img4.jpeg" alt="Foto 4"></div>
+    <div></div><div class="filled"><img src="img/img4.jpeg" alt="Foto 4"></div><div class="filled"><img src="img/img12.jpeg" alt="Foto 12"></div><div class="filled"><img src="img/img3.jpeg" alt="Foto 3"></div><div></div>
+    <div></div><div></div><div class="filled"><img src="img/img11.jpeg" alt="Foto 11"></div><div></div><div></div>
+  </div>
+
+  <h1>💌 Tienes unos mensajitos 💌</h1>
+
+  <div class="letters">
+    <div class="letter" onclick="this.classList.toggle('open')">
+      <div class="letter-inner">
+        <div class="letter-front"><span class="click-text">Da click</span></div>
+        <div class="letter-back">Eres la razón de mis sonrisas más bonitas ✨</div>
+      </div>
+    </div>
+    <div class="letter" onclick="this.classList.toggle('open')">
+      <div class="letter-inner">
+        <div class="letter-front"><span class="click-text">Da click</span></div>
+        <div class="letter-back">Tu sonrisa ilumina hasta mis días más oscuros ❤️</div>
+      </div>
+    </div>
+    <div class="letter" onclick="this.classList.toggle('open')">
+      <div class="letter-inner">
+        <div class="letter-front"><span class="click-text">Da click</span></div>
+        <div class="letter-back">Contigo todo es más bonito 🌻</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reproductor de música profesional -->
+  <div class="music-player">
+    <div class="player-header">🎵 Reproductor de Música</div>
+    
+    <div class="song-selector">
+      <label for="songSelect">Seleccionar canción:</label>
+      <select id="songSelect">
+        <option value="">Elige una canción...</option>
+      </select>
+    </div>
+
+    <div class="audio-controls">
+      <button class="control-btn" id="prevBtn" title="Anterior">⏮</button>
+      <button class="control-btn play-pause-btn" id="playPauseBtn" title="Reproducir/Pausar">▶</button>
+      <button class="control-btn" id="nextBtn" title="Siguiente">⏭</button>
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+
+    <div class="volume-container">
+      <span class="volume-icon">🔊</span>
+      <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+      <span id="volumeDisplay">50%</span>
+    </div>
+
+    <div class="now-playing" id="nowPlaying">Ninguna canción seleccionada</div>
+
+    <audio id="audioPlayer" preload="metadata"></audio>
+  </div>
+
+  <div id="stars"></div> <!-- Contenedor de estrellas y corazones -->
+
+  <script>
+    const starsContainer = document.getElementById('stars');
+
+    // Crear estrellas
+    function createStars(num = 100) {
+      for (let i = 0; i < num; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = 1 + Math.random() * 3;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDuration = (1 + Math.random() * 3) + 's';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // Crear corazones neon
+    function createHearts(num = 20) {
+      for (let i = 0; i < num; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-neon';
+        heart.innerHTML = '❤️';
+        heart.style.fontSize = (10 + Math.random() * 20) + 'px';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = Math.random() * 100 + '%';
+        heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+        heart.style.animationDelay = Math.random() * 2 + 's';
+        starsContainer.appendChild(heart);
+      }
+    }
+
+    // REPRODUCTOR DE MÚSICA PROFESIONAL
+    const playlist = [
+        {title: "Como Enamoraban Antes - Fonseca", src: "aud/Como Enamoraban Antes - Fonseca.mp3"},
+        {title: "Eres Tú - Matisse", src: "aud/Eres Tú - Matisse.mp3"},
+        {title: "Inolvidable - Reik", src: "aud/Inolvidable - Reik.mp3"},
+        {title: "Otras Vidas - Carlos Rivera", src: "aud/Otras Vidas - Carlos Rivera.mp3"},
+        {title: "Simples Corazones (feat. Melendi) - Fonseca", src: "aud/Simples Corazones (feat. Melendi) - Fonseca.mp3"}
+    ];
+
+    const audioPlayer = document.getElementById('audioPlayer');
+    const songSelect = document.getElementById('songSelect');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const currentTimeSpan = document.getElementById('currentTime');
+    const durationSpan = document.getElementById('duration');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeDisplay = document.getElementById('volumeDisplay');
+    const nowPlaying = document.getElementById('nowPlaying');
+
+    let currentSongIndex = -1;
+    let isPlaying = false;
+
+    // Llenar select con canciones
+    playlist.forEach((song, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.text = song.title;
+        songSelect.appendChild(option);
+    });
+
+    // Función para cargar canción
+    function loadSong(index) {
+        if (index >= 0 && index < playlist.length) {
+            currentSongIndex = index;
+            audioPlayer.src = playlist[index].src;
+            songSelect.value = index;
+            nowPlaying.textContent = `♪ ${playlist[index].title}`;
+        }
+    }
+
+    // Función para reproducir/pausar
+    function togglePlayPause() {
+        if (currentSongIndex === -1) {
+            alert('Por favor selecciona una canción primero');
+            return;
+        }
+
+        if (isPlaying) {
+            audioPlayer.pause();
+            playPauseBtn.innerHTML = '▶';
+            isPlaying = false;
+        } else {
+            audioPlayer.play().catch(e => {
+                console.log('Error al reproducir:', e);
+                alert('Error al reproducir el audio. Verifica que el archivo existe.');
+            });
+            playPauseBtn.innerHTML = '⏸';
+            isPlaying = true;
+        }
+    }
+
+    // Función para formatear tiempo
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Event listeners
+    songSelect.addEventListener('change', function() {
+        if (this.value !== '') {
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                playPauseBtn.innerHTML = '▶';
+            }
+            loadSong(parseInt(this.value));
+        } else {
+            nowPlaying.textContent = 'Ninguna canción seleccionada';
+            currentSongIndex = -1;
+            audioPlayer.src = '';
+        }
+    });
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+
+    prevBtn.addEventListener('click', function() {
+        if (currentSongIndex > 0) {
+            loadSong(currentSongIndex - 1);
+            if (isPlaying) {
+                audioPlayer.play();
+            }
+        }
+    });
+
+    nextBtn.addEventListener('click', function() {
+        if (currentSongIndex < playlist.length - 1) {
+            loadSong(currentSongIndex + 1);
+            if (isPlaying) {
+                audioPlayer.play();
+            }
+        }
+    });
+
+    // Progreso de la canción
+    audioPlayer.addEventListener('timeupdate', function() {
+        if (audioPlayer.duration) {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = progress + '%';
+            currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+        }
+    });
+
+    audioPlayer.addEventListener('loadedmetadata', function() {
+        durationSpan.textContent = formatTime(audioPlayer.duration);
+    });
+
+    // Click en barra de progreso
+    progressContainer.addEventListener('click', function(e) {
+        if (audioPlayer.duration) {
+            const rect = progressContainer.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audioPlayer.currentTime = percent * audioPlayer.duration;
+        }
+    });
+
+    // Control de volumen
+    volumeSlider.addEventListener('input', function() {
+        audioPlayer.volume = this.value / 100;
+        volumeDisplay.textContent = this.value + '%';
+    });
+
+    // Cuando termina una canción
+    audioPlayer.addEventListener('ended', function() {
+        isPlaying = false;
+        playPauseBtn.innerHTML = '▶';
+        progressBar.style.width = '0%';
+        currentTimeSpan.textContent = '0:00';
+    });
+
+    // Inicializar página con canción predefinida
+    document.addEventListener('DOMContentLoaded', function() {
+        createStars();
+        createHearts();
+        // Cargar "Eres Tú - Matisse" por defecto
+        loadSong(1);
+    });
+  </script>
+
+</body>
+</html>

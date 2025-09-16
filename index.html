@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/icon.jpeg" type="image/jpeg" />
     <title>Ramo de Girasoles - Día de las Flores Amarillas</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -89,9 +90,9 @@
 
         /* Tallos más largos */
         .stem {
-            position: absolute; width: 6px; height: 300px; /* antes 200px */
+            position: absolute; width: 6px; height: 300px;
             background: linear-gradient(to bottom, #2e7d32, #1b5e20);
-            bottom: -300px; /* coincidiendo con la nueva altura */
+            bottom: -300px;
             left: 50%; transform: translateX(-50%);
             z-index: -1; border-radius: 3px;
         }
@@ -103,16 +104,35 @@
         }
         .leaf-left { bottom: -150px; left: -20px; transform: rotate(-30deg); }
         .leaf-right { bottom: -190px; right: -20px; transform: rotate(60deg) scaleX(-1); }
+
+        .neon-red-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff1744, #f50057);
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            text-decoration: none; /* sin subrayado */
+            box-shadow: 0 0 10px #ff1744, 0 0 20px #f50057, 0 0 40px #ff1744;
+            transition: 0.3s;
+        }
+        .neon-red-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px #ff1744, 0 0 40px #f50057, 0 0 60px #ff1744;
+        }
     </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
     <div class="container">
-        <h1 class="title">✨ FLores Para Tí Eliannys 🥰✨</h1>
+        <h1 class="title">✨ A las niñas bonitas siempre les dan flores y tu eres una de ellas Eliannys 🥰✨</h1>
 
         <!-- Botón de play/pausa -->
         <button class="play-music-btn" id="playMusicBtn">▶️ Feliz 21 de septiembre ❤️🌻</button>
-        
+        <!-- Nuevo botón que lleva a otra página -->
+        <a href="fotos.html" class="neon-red-btn">Da click aquí</a>
+    
         <div id="progressWrapper"></div>
 
         <div class="bouquet-container" id="bouquet"></div>
